@@ -39,4 +39,23 @@ describe("Roster Pulse", () => {
     const shiftButtons = within(roster).getAllByRole("button");
     expect(shiftButtons[0]).toHaveAccessibleName(/pick-floor supervisor/i);
   });
+
+  it("keeps a draft handoff note attached to its shift after sorting", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const outboundNote = screen.getByRole("textbox", {
+      name: "Draft handoff note for Outbound lead",
+    });
+    await user.clear(outboundNote);
+    await user.type(outboundNote, "Dock four ready for night handoff");
+    await user.click(screen.getByRole("button", { name: /start time/i }));
+
+    expect(
+      screen.getByRole("textbox", { name: "Draft handoff note for Outbound lead" }),
+    ).toHaveValue("Dock four ready for night handoff");
+    expect(
+      screen.getByRole("textbox", { name: "Draft handoff note for Pick-floor supervisor" }),
+    ).toHaveValue("Wave 42 needs a supervisor sign-off.");
+  });
 });
