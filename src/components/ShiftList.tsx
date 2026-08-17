@@ -21,9 +21,9 @@ export function ShiftList({ shifts, selectedId, onSelect }: ShiftListProps) {
         <span>Local draft notes</span>
       </div>
       <div className="shift-list__items">
-        {shifts.map((shift, index) => (
+        {shifts.map((shift) => (
           <ShiftCard
-            key={index}
+            key={shift.id}
             shift={shift}
             selected={shift.id === selectedId}
             onSelect={onSelect}
@@ -33,4 +33,3 @@ export function ShiftList({ shifts, selectedId, onSelect }: ShiftListProps) {
     </section>
   );
 }
-
